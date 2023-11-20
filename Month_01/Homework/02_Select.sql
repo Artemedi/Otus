@@ -77,3 +77,23 @@ from (SELECT ord.OrderID
 order by quarter, tret, OrderDate
 OFFSET 1000 ROWS
 FETCH FIRST 100 ROWS ONLY;
+
+/*
+4. Заказы поставщикам (Purchasing.Suppliers),
+которые должны быть исполнены (ExpectedDeliveryDate) в январе 2013 года
+с доставкой "Air Freight" или "Refrigerated Air Freight" (DeliveryMethodName)
+и которые исполнены (IsOrderFinalized).
+Вывести:
+* способ доставки (DeliveryMethodName)
+* дата доставки (ExpectedDeliveryDate)
+* имя поставщика
+* имя контактного лица принимавшего заказ (ContactPerson)
+
+Таблицы: Purchasing.Suppliers, Purchasing.PurchaseOrders, Application.DeliveryMethods, Application.People.
+*/
+
+select top 10 *
+from Purchasing.Suppliers sup
+    join Purchasing.PurchaseOrders pur on sup.SupplierID = pur.SupplierID
+    join Application.DeliveryMethods del on pur.DeliveryMethodID = del.DeliveryMethodID
+    join Application.People peo on pur.ContactPersonID = peo.PersonID
